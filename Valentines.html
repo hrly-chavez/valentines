@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be my Valentine ૮ ˶ᵔ ᵕ ᵔ˶ ა</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+        body {
+            text-align: center;
+            background-color: #FFE4F0; 
+            font-family: 'Indie Flower', cursive;
+            padding: 20px;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #FF88A4;
+            text-shadow: 2px 2px 5px rgba(255, 136, 164, 0.2);
+            transition: color 0.3s ease-in-out;
+        }
+        .button-container {
+            margin-top: 45px;
+        }
+        button {
+            font-size: 1.2rem;
+            background: linear-gradient(145deg, #FFC8DD, #FFB6C1);
+            border: none;
+            border-radius: 15px;
+            padding: 12px 24px;
+            margin: 10px;
+            cursor: pointer;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease-in-out;
+            color: #6B1839;
+            position: relative;
+        }
+        button:hover {
+            background: linear-gradient(145deg, #FFB6C1, #FFA6B9);
+            transform: scale(1.1);
+            color: white;
+            box-shadow: 0px 4px 15px rgba(255, 182, 193, 0.6);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 60px;
+        }
+        .floating-button {
+            position: absolute;
+            z-index: 10;
+            animation: bounce 0.5s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 id="question">(˶ᵔ ᵕ ᵔ˶) Will you be my Valentine?</h1>
+        <div class="button-container" id="buttonContainer">
+            <button id="yesButton">Yes ✨</button>
+            <button id="noButton">No 💔</button>
+        </div>
+    </div>
+    <img id="gif" src="cinamon.gif" alt="Cinnamoroll">
+    <script>
+        function reloadGif() {
+            var gif = document.getElementById("gif");
+            var src = gif.src;
+            gif.src = '';
+            gif.src = src;
+        }
+        setInterval(reloadGif, 3000);
+
+        let clickCount = 0;
+        let question = document.getElementById("question");
+
+        // Function to remove floating buttons
+        function removeFloatingYesButtons() {
+            document.querySelectorAll(".floating-button").forEach(button => button.remove());
+        }
+
+        // No Button Click Event
+        document.getElementById("noButton").addEventListener("click", function() {
+            if (question.innerHTML.includes("So now will you be my Valentine? ( ≖‿ ≖ )Heehee")) {
+                // Spawn Random Floating Yes Buttons
+                for (let i = 0; i < 5; i++) { // Increase chaos by 5 buttons
+                    let newButton = document.createElement("button");
+                    newButton.innerHTML = "Yes ✨";
+                    newButton.classList.add("floating-button");
+
+                    let x = Math.random() * (window.innerWidth - 100);
+                    let y = Math.random() * (window.innerHeight - 50);
+                    newButton.style.left = `${x}px`;
+                    newButton.style.top = `${y}px`;
+
+                    document.body.appendChild(newButton);
+
+                    newButton.addEventListener("click", function() {
+                        this.remove();
+                    });
+                }
+            } else {
+                clickCount++;
+                if (clickCount === 1) {
+                    question.innerHTML = "Are you sure? 😢";
+                } else {
+                    question.innerHTML = "So now will you be my Valentine? ( ≖‿ ≖ )Heehee";
+                    clickCount = 0;
+                    removeFloatingYesButtons();
+                }
+            }
+        });
+
+        // Yes Button Click Event
+        document.getElementById("yesButton").addEventListener("click", function(event) {
+            if (question.innerHTML.includes("Will you be my Valentine?")) {
+                question.innerHTML = "♡⸜(˶˃ ᵕ ˂˶)⸝♡ So excited to be your Valentine! 🥰";
+            } else if (question.innerHTML.includes("So now will you be my Valentine? ( ≖‿ ≖ )Heehee")) {
+                question.innerHTML = "♡⸜(˶˃ ᵕ ˂˶)⸝♡ So excited to be your Valentine! 🥰";
+            } else if (question.innerHTML.includes("Are you sure? 😢")) {
+                // Spawn Random Floating Yes Buttons
+                let newButton = document.createElement("button");
+                newButton.innerHTML = "Yes ✨";
+                newButton.classList.add("floating-button");
+
+                let x = Math.random() * (window.innerWidth - 100);
+                let y = Math.random() * (window.innerHeight - 50);
+                newButton.style.left = `${x}px`;
+                newButton.style.top = `${y}px`;
+
+                document.body.appendChild(newButton);
+
+                newButton.addEventListener("click", function() {
+                    this.remove();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
